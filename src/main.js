@@ -14,12 +14,12 @@ let outputCompiler = JSON.parse(json_compiler);
 async function Main({ code }) {
   let tokens = await tokenizer.token(code);
   let ast = await Parser(code);
+  let code_generate = await generate(ast);
   const compiler = {
-    tokens: JSON.stringify(tokens),
-    ast: JSON.stringify(ast),
+    tokens: JSON.stringify(tokens, null, 2),
+    ast: JSON.stringify(ast, null, 2),
+    code: code_generate,
   };
-  //const compilerEnd = compiler.replace(/\\n/g, "");
-  //console.log(compilerEnd);
   outputCompiler = Object.assign(compiler);
   const json_compiler = JSON.stringify(outputCompiler);
   fs.writeFileSync(

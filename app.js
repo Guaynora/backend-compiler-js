@@ -24,7 +24,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.set("json spaces", 2);
+//app.set("json spaces", 2);
 
 app.get("/generate", (req, res) => {
   res.json(outputCompiler);
