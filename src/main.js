@@ -17,10 +17,12 @@ async function Main({ code }) {
   let tokens = await tokenizer.token(code);
   let ast = await Parser(code);
   let code_generate = await generate(ast);
+  const output_run = await runCode();
   const compiler = {
     tokens: JSON.stringify(tokens, null, 2),
     ast: JSON.stringify(ast, null, 2),
     code: code_generate,
+    output: output_run,
   };
   outputCompiler = Object.assign(compiler);
   const json_compiler = JSON.stringify(outputCompiler);
@@ -32,16 +34,12 @@ async function Main({ code }) {
 }
 
 async function runCode() {
-  await myExec(`node code.js`);
-}
-
-async function myExec(command) {
-  const output = await exec(command);
-  if (output.stdout) {
-    console.log(output.stdout);
+  const runJs = await exec(`node code.js`);
+  if (runJs.stdout) {
+    return runJs.stdout;
   }
-  if (output.stderr) {
-    console.log(output.stderr);
+  if (runJs.stderr) {
+    return runJs.stderr;
   }
 }
 
