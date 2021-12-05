@@ -3,6 +3,8 @@ const path = require("path");
 const tokenizer = require("./tokenizer.js");
 const Parser = require("./parser.js");
 const generate = require("./generate.js");
+const util = require("util");
+const exec = util.promisify(require("child_process").exec);
 
 const json_compiler = fs.readFileSync(
   path.resolve(__dirname, "./compiler.json"),

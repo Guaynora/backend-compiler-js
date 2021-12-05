@@ -1,6 +1,10 @@
+const fs = require("fs");
+const path = require("path");
+
 async function Generate(ast) {
   const jsCode = generateJsForStatements(ast);
   console.log(jsCode);
+  await fs.writeFileSync(path.resolve(__dirname, "./code.js"), jsCode);
   return jsCode;
 }
 
