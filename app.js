@@ -5,13 +5,6 @@ const main = require("./src/main");
 const fs = require("fs");
 const path = require("path");
 
-const json_compiler = fs.readFileSync(
-  path.resolve(__dirname, "./src/compiler.json"),
-  "utf-8"
-);
-
-let outputCompiler = JSON.parse(json_compiler);
-
 app.use(express.json());
 // Configurar cabeceras y cors
 app.use((req, res, next) => {
@@ -27,6 +20,12 @@ app.use((req, res, next) => {
 //app.set("json spaces", 2);
 
 app.get("/generate", (req, res) => {
+  const json_compiler = fs.readFileSync(
+    path.resolve(__dirname, "./src/compiler.json"),
+    "utf-8"
+  );
+
+  let outputCompiler = JSON.parse(json_compiler);
   res.json(outputCompiler);
 });
 
