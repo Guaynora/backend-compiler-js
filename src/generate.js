@@ -30,7 +30,6 @@ function generateJSForStatementOrExp(node) {
         return generateJSForStatementOrExp(arg);
       })
       .join(", ");
-    console.log(funName == "print");
     if (funName === "print") {
       return `console.log(${argList});`;
     } else {
