@@ -22,6 +22,7 @@ statements
 statement
     -> var_assign   {% id %}
     | fun_call      {% id %}
+    | while_loop    {% id %}
 
 var_assign
     ->%identifier _ "=" _ expr
@@ -47,6 +48,18 @@ fun_call
             }
         %}
 
+while_loop
+    -> "while" _ binary_expression _ "{" _ %NL statements %NL "}"
+        {%
+            (data) => {
+                return {
+                    type: "while_loop",
+                    condition: data[2],
+                    body: data[7]
+                }
+            }
+        %}
+
 arg_list
     ->expr
         {%
@@ -60,11 +73,37 @@ arg_list
                 return [...data[0], data[2]]
             }
         %}
+    
 expr
     -> %string      {% id %}
+    | fun_call      {% id %}
+    |binary_expression  {% id %}
     | %number       {% id %}
     | %identifier   {% id %}
-    | fun_call      {% id %}
+
+binary_expression
+    -> expr _ operator _ expr 
+        {%
+            data => {
+                return{
+                    type: "binary_expression",
+                    left: data[0],
+                    operator: data[2],
+                    right: data[4]
+                }
+            }
+        %}
+
+operator 
+    -> "+"  {%id%}
+    |  "-"  {%id%}
+    |  "*"  {%id%}
+    |  "/"  {%id%}
+    |  "<"  {%id%}
+    |  ">"  {%id%}
+    |  "<="  {%id%}
+    |  ">="  {%id%}
+    |  "=="  {%id%}
 
 _ -> %WS:*
 

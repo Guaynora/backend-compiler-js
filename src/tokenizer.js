@@ -10,8 +10,8 @@ let lexer = moo.compile({
   lbrace: "{",
   rbrace: "}",
   identifier: /[a-zA-Z][a-zA-Z_0-9]*/,
-  fatarrow: "=>",
   assign: "=",
+  operator: ["+", "-", "*", "/", "<", ">", "<=", ">=", "=="],
   NL: { match: /\n/, lineBreaks: true },
 });
 

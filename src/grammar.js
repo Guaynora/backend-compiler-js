@@ -20,6 +20,7 @@ var grammar = {
                 },
     {"name": "statement", "symbols": ["var_assign"], "postprocess": id},
     {"name": "statement", "symbols": ["fun_call"], "postprocess": id},
+    {"name": "statement", "symbols": ["while_loop"], "postprocess": id},
     {"name": "var_assign", "symbols": [(myLex.has("identifier") ? {type: "identifier"} : identifier), "_", {"literal":"="}, "_", "expr"], "postprocess": 
         (data) => {
             return{
@@ -41,6 +42,15 @@ var grammar = {
             }
         }
                 },
+    {"name": "while_loop", "symbols": [{"literal":"while"}, "_", "binary_expression", "_", {"literal":"{"}, "_", (myLex.has("NL") ? {type: "NL"} : NL), "statements", (myLex.has("NL") ? {type: "NL"} : NL), {"literal":"}"}], "postprocess": 
+        (data) => {
+            return {
+                type: "while_loop",
+                condition: data[2],
+                body: data[7]
+            }
+        }
+                },
     {"name": "arg_list", "symbols": ["expr"], "postprocess": 
         (data) => {
             return [data[0]]
@@ -52,9 +62,29 @@ var grammar = {
         }
                 },
     {"name": "expr", "symbols": [(myLex.has("string") ? {type: "string"} : string)], "postprocess": id},
+    {"name": "expr", "symbols": ["fun_call"], "postprocess": id},
+    {"name": "expr", "symbols": ["binary_expression"], "postprocess": id},
     {"name": "expr", "symbols": [(myLex.has("number") ? {type: "number"} : number)], "postprocess": id},
     {"name": "expr", "symbols": [(myLex.has("identifier") ? {type: "identifier"} : identifier)], "postprocess": id},
-    {"name": "expr", "symbols": ["fun_call"], "postprocess": id},
+    {"name": "binary_expression", "symbols": ["expr", "_", "operator", "_", "expr"], "postprocess": 
+        data => {
+            return{
+                type: "binary_expression",
+                left: data[0],
+                operator: data[2],
+                right: data[4]
+            }
+        }
+                },
+    {"name": "operator", "symbols": [{"literal":"+"}], "postprocess": id},
+    {"name": "operator", "symbols": [{"literal":"-"}], "postprocess": id},
+    {"name": "operator", "symbols": [{"literal":"*"}], "postprocess": id},
+    {"name": "operator", "symbols": [{"literal":"/"}], "postprocess": id},
+    {"name": "operator", "symbols": [{"literal":"<"}], "postprocess": id},
+    {"name": "operator", "symbols": [{"literal":">"}], "postprocess": id},
+    {"name": "operator", "symbols": [{"literal":"<="}], "postprocess": id},
+    {"name": "operator", "symbols": [{"literal":">="}], "postprocess": id},
+    {"name": "operator", "symbols": [{"literal":"=="}], "postprocess": id},
     {"name": "_$ebnf$1", "symbols": []},
     {"name": "_$ebnf$1", "symbols": ["_$ebnf$1", (myLex.has("WS") ? {type: "WS"} : WS)], "postprocess": function arrpush(d) {return d[0].concat([d[1]]);}},
     {"name": "_", "symbols": ["_$ebnf$1"]},
