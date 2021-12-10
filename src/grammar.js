@@ -42,7 +42,7 @@ var grammar = {
             }
         }
                 },
-    {"name": "while_loop", "symbols": [{"literal":"while"}, "_", "binary_expression", "_", {"literal":"{"}, "_", (myLex.has("NL") ? {type: "NL"} : NL), "statements", (myLex.has("NL") ? {type: "NL"} : NL), {"literal":"}"}], "postprocess": 
+    {"name": "while_loop", "symbols": [{"literal":"while"}, "_", "binary_expression", "_", {"literal":"{"}, "_", (myLex.has("NL") ? {type: "NL"} : NL), "_", "statements", (myLex.has("NL") ? {type: "NL"} : NL), {"literal":"}"}], "postprocess": 
         (data) => {
             return {
                 type: "while_loop",

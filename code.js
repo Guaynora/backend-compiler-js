@@ -1,2 +1,2 @@
-let a = 2
-console.log(a);
+let sum = 2
+console.log(sum + a);

@@ -35,6 +35,18 @@ function generateJSForStatementOrExp(node) {
     } else {
       return `${funName}(${argList})`;
     }
+  } else if (node.type === "binary_expression") {
+    const left = generateJSForStatementOrExp(node.left);
+    const right = generateJSForStatementOrExp(node.right);
+    const operator = node.operator;
+    return `${left} ${operator} ${right}`;
+  } else if (node.type === "while_loop") {
+    const condition = generateJSForStatementOrExp(node.condition);
+    const body = generateJSForStatementOrExp(node.body)
+      .split("\n")
+      .map((line) => " " + line)
+      .join("\n");
+    return `while (${condition}) {\n${body}\n}`;
   } else if (node.type === "string") {
     return node.value;
   } else if (node.type === "number") {
@@ -42,7 +54,7 @@ function generateJSForStatementOrExp(node) {
   } else if (node.type === "identifier") {
     return node.value;
   } else {
-    throw new Error(`Unhandled AST node type ${node.type}`);
+    throw new Error(node.type);
   }
 }
 

@@ -16,13 +16,13 @@ let outputCompiler = JSON.parse(json_compiler);
 async function Main({ code }) {
   let tokens = await tokenizer.token(code);
   let ast = await Parser(code);
-  //let code_generate = await generate(ast);
-  //const output_run = await runCode();
+  let code_generate = await generate(ast);
+  const output_run = await runCode();
   const compiler = {
     tokens: JSON.stringify(tokens, null, 2),
     ast: JSON.stringify(ast, null, 2),
-    //code: code_generate,
-    //output: output_run,
+    code: code_generate,
+    output: output_run,
   };
   outputCompiler = Object.assign(compiler);
   const json_compiler = JSON.stringify(outputCompiler);

@@ -49,7 +49,7 @@ fun_call
         %}
 
 while_loop
-    -> "while" _ binary_expression _ "{" _ %NL statements %NL "}"
+    -> "while" _ binary_expression _ "{" _ %NL _ statements %NL "}"
         {%
             (data) => {
                 return {
