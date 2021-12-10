@@ -1,5 +1,4 @@
-let i = 0
-while (i < 10) {
-  let i = i + 1
-  console.log(1);
-}
+let n = 1
+let m = 5
+let sum = n + m
+console.log("suma", sum);
