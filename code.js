@@ -1,2 +1,5 @@
-let a = 3
-console.log(a + b);
+let i = 0
+while (i < 10) {
+  let i = i + 1
+  console.log(1);
+}

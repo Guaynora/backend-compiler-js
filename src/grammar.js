@@ -47,7 +47,7 @@ var grammar = {
             return {
                 type: "while_loop",
                 condition: data[2],
-                body: data[7]
+                body: data[8]
             }
         }
                 },

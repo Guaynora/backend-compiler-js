@@ -42,11 +42,12 @@ function generateJSForStatementOrExp(node) {
     return `${left} ${operator} ${right}`;
   } else if (node.type === "while_loop") {
     const condition = generateJSForStatementOrExp(node.condition);
-    const body = generateJSForStatementOrExp(node.body)
-      .split("\n")
-      .map((line) => " " + line)
-      .join("\n");
-    return `while (${condition}) {\n${body}\n}`;
+    const bodyMap = node.body.map((node) => {
+      const body = generateJSForStatementOrExp(node);
+      return `  ${body}`;
+    });
+    const bodyWhile = bodyMap.join(",").replace(",", "\n");
+    return `while (${condition}) {\n${bodyWhile}\n}`;
   } else if (node.type === "string") {
     return node.value;
   } else if (node.type === "number") {
@@ -54,7 +55,7 @@ function generateJSForStatementOrExp(node) {
   } else if (node.type === "identifier") {
     return node.value;
   } else {
-    throw new Error(node.type);
+    throw new Error(`Unhandled AST node type ${node.type}`);
   }
 }
 
